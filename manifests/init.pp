@@ -22,7 +22,15 @@ class ruby (
   $ensure = $::ruby::params::ruby_package_ensure
 ) inherits ::ruby::params {
   package { $::ruby::params::ruby_packages:
-    ensure  => $ensure,
+    ensure => $ensure,
+  }
+
+  case $::operatingsystem {
+    'Amazon', 'Debian': {
+      ruby::gems{ $::ruby::params::ruby_gems:
+        ensure => $ensure,
+      }
+    }
   }
 
   $gems = hiera_hash('ruby::gems',{})

@@ -15,14 +15,33 @@ class ruby::params {
         'ruby',
         'ruby-dev'
       ]
+
+      $ruby_gems = [
+        'bundler'
+      ]
     }
     'RedHat': {
-      $ruby_packages = [
-        'ruby',
-        'ruby-devel',
-        'rubygem-bundler',
-        'rubygems'
-      ]
+      case $::operatingsystem {
+        'Amazon': {
+          $ruby_packages = [
+            'ruby',
+            'ruby-devel',
+            'rubygems'
+          ]
+
+          $ruby_gems = [
+            'bundler'
+          ]
+        }
+        default: {
+          $ruby_packages = [
+            'ruby',
+            'ruby-devel',
+            'rubygem-bundler',
+            'rubygems'
+          ]
+        }
+      }
     }
     default: {
       fail("The ${module_name} module is not supported on an ${::osfamily} based system.")

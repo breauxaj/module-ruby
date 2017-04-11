@@ -1,6 +1,13 @@
 node default {
   include ::ruby
 
+  case $::operatingsystem {
+    'Amazon': {
+        Package { allow_virtual => false }
+    }
+    default: {}
+  }
+
   case $::osfamily {
     'Debian': {
       package { 'build-essential': ensure => present, before => Package['mailcatcher'] }
