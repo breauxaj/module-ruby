@@ -11,35 +11,51 @@ class ruby::params {
 
   case $::osfamily {
     'Debian': {
-      $ruby_packages = [
-        'ruby',
-        'ruby-dev'
-      ]
+      case $::operatingsystem {
+        default: {
+          case $::operatingsystemmajrelease {
+            default: {
+              $ruby_packages = [
+                'ruby',
+                'ruby-dev'
+              ]
 
-      $ruby_gems = [
-        'bundler'
-      ]
+              $ruby_gems = [
+                'bundler'
+              ]
+            }
+          }
+        }
+      }
     }
     'RedHat': {
       case $::operatingsystem {
         'Amazon': {
-          $ruby_packages = [
-            'ruby',
-            'ruby-devel',
-            'rubygems'
-          ]
+          case $::operatingsystemmajrelease {
+            default: {
+              $ruby_packages = [
+                'ruby',
+                'ruby-devel',
+                'rubygems'
+              ]
 
-          $ruby_gems = [
-            'bundler'
-          ]
+              $ruby_gems = [
+                'bundler'
+              ]
+            }
+          }
         }
         default: {
-          $ruby_packages = [
-            'ruby',
-            'ruby-devel',
-            'rubygem-bundler',
-            'rubygems'
-          ]
+          case $::operatingsystemmajrelease {
+            default: {
+              $ruby_packages = [
+                'ruby',
+                'ruby-devel',
+                'rubygem-bundler',
+                'rubygems'
+              ]
+            }
+          }
         }
       }
     }

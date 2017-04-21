@@ -25,10 +25,24 @@ class ruby (
     ensure => $ensure,
   }
 
-  case $::operatingsystem {
-    'Amazon', 'Debian': {
-      ruby::gems{ $::ruby::params::ruby_gems:
-        ensure => $ensure,
+  case $::osfamily {
+    'Debian': {
+      case $::operatingsystem {
+        default: {
+          ruby::gems{ $::ruby::params::ruby_gems:
+            ensure => $ensure,
+          }
+        }
+      }
+    }
+    'RedHat': {
+      case $::operatingsystem {
+        'Amazon': {
+          ruby::gems{ $::ruby::params::ruby_gems:
+            ensure => $ensure,
+          }
+        }
+        default: { }
       }
     }
   }
